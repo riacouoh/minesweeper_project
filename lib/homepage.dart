@@ -31,8 +31,9 @@ class _HomePageState extends State<HomePage> {
 
     scanBombs();
   }
+
     //bomb location:
-    final List<int> bombLocation = [4, 5, 20, 28, 52];
+    final List<int> bombLocation = [];
 
     bool bombsRevealed = false;
 
@@ -52,6 +53,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           squareStatus[index][1] = true;
 
+          //left box check 
           if (index % numberinEachRow !=0) {
             //if next box not revealed + also 0, recurse
             if (squareStatus[index-1][0] == 0 && squareStatus[index-1][1] == false) {
@@ -61,6 +63,97 @@ class _HomePageState extends State<HomePage> {
             //reveal left box
             squareStatus[index-1][1]=true;
           }
+
+          //top left - top row/left wall
+
+          if (index % numberinEachRow !=0 && index <= numberinEachRow) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index-1 -numberinEachRow][0] == 0 
+                && squareStatus[index-1 - numberinEachRow][1] == false) {
+              revealBoxNumbers(index-1 -numberinEachRow);
+            }
+
+            //reveal top left box
+            squareStatus[index-1 -numberinEachRow][1]=true;
+          }
+
+
+          //top box - top row
+          if (index >= numberinEachRow) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index -numberinEachRow][0] == 0 
+                && squareStatus[index- numberinEachRow][1] == false) {
+              revealBoxNumbers(index -numberinEachRow);
+            }
+
+            //reveal top box
+            squareStatus[index -numberinEachRow][1]=true;
+          }
+
+          //top right box - right/top row
+          if (index >= numberinEachRow &&
+            index % numberinEachRow != numberinEachRow -1) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index +1  -numberinEachRow][0] == 0 
+                && squareStatus[index +1 - numberinEachRow][1] == false) {
+              revealBoxNumbers(index +1 -numberinEachRow);
+            }
+
+            //reveal top right box
+            squareStatus[index +1 -numberinEachRow][1]=true;
+          }
+
+
+          //right box - right row
+          if (index % numberinEachRow != numberinEachRow -1) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index +1][0] == 0 
+                && squareStatus[index +1][1] == false) {
+              revealBoxNumbers(index +1);
+            }
+
+            //reveal right box
+            squareStatus[index +1][1]=true;
+          }
+
+          //bottom right box - bottom/right 
+          if (index < numberOfSquares - numberinEachRow
+            && index % numberinEachRow != numberinEachRow -1) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index +1 +numberinEachRow][0] == 0 
+                && squareStatus[index +1 + numberinEachRow][1] == false) {
+              revealBoxNumbers(index +1 + numberinEachRow);
+            }
+
+            //reveal right box
+            squareStatus[index +1 + numberinEachRow][1]=true;
+          }    
+
+          //bottom box
+          if (index < numberOfSquares - numberinEachRow) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index + numberinEachRow][0] == 0 
+                && squareStatus[index + numberinEachRow][1] == false) {
+              revealBoxNumbers(index + numberinEachRow);
+            }
+
+            //reveal bottom box
+            squareStatus[index + numberinEachRow][1]=true;
+          }          
+
+          //bottom left box
+          if (index < numberOfSquares - numberinEachRow
+            && index % numberinEachRow != 0) {
+            //if next box not revealed + also 0, recurse
+            if (squareStatus[index -1 + numberinEachRow][0] == 0 
+                && squareStatus[index -1 + numberinEachRow][1] == false) {
+              revealBoxNumbers(index -1 + numberinEachRow);
+            }
+
+            //reveal bottom left box
+            squareStatus[index -1 + numberinEachRow][1]=true;
+          }     
+
         });
       }
     }
